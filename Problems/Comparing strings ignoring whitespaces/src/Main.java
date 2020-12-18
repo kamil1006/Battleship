@@ -1,8 +1,7 @@
 import java.util.Scanner;
-
 class Main {
     public static void main(String[] args) {
-        Scanner scanner= new Scanner(System.in);
+         Scanner scanner= new Scanner(System.in);
 
         String linia1 = scanner.nextLine();
         String linia2 = scanner.nextLine();
@@ -31,5 +30,4 @@ class Main {
         return withoutspaces;
 
     }
-
 }

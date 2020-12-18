@@ -59,7 +59,8 @@ content:
 - Return empty string when argument is null
 - Avoid NPE
 - Out of bounds_
-- Are siblings?
 - Reverse input text
 - Convert to bytes
 - Count words
+- Throw a checked exception
+- Accounts

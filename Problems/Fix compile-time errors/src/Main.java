@@ -1,10 +1,6 @@
 import java.util.Scanner;
 
 public class Main {
-
-    int field;
-    String a;
-    boolean c;
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 

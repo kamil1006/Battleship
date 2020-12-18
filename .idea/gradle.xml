@@ -16,6 +16,7 @@
             <option value="$PROJECT_DIR$/Problems/Account" />
             <option value="$PROJECT_DIR$/Problems/Account (1)" />
             <option value="$PROJECT_DIR$/Problems/Account and its owner" />
+            <option value="$PROJECT_DIR$/Problems/Accounts" />
             <option value="$PROJECT_DIR$/Problems/Arithmetic average" />
             <option value="$PROJECT_DIR$/Problems/Army" />
             <option value="$PROJECT_DIR$/Problems/Avoid NPE" />
@@ -74,6 +75,7 @@
             <option value="$PROJECT_DIR$/Problems/The roots of an equation" />
             <option value="$PROJECT_DIR$/Problems/The sequence" />
             <option value="$PROJECT_DIR$/Problems/The sign of a number" />
+            <option value="$PROJECT_DIR$/Problems/Throw a checked exception" />
             <option value="$PROJECT_DIR$/Problems/Throw an unchecked exception" />
             <option value="$PROJECT_DIR$/util" />
           </set>
