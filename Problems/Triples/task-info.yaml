@@ -1,0 +1,20 @@
+type: code
+files:
+- name: src/Main.java
+  visible: true
+  text: |-
+    class Main {
+        public static void main(String[] args) {
+            // put your code here
+        }
+    }
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/2141#comment
+status: Unchecked
+feedback:
+  message: |-
+    Connection to server was interrupted
+
+    timeout
+  time: Tue, 29 Dec 2020 16:23:54 UTC
+record: -1
