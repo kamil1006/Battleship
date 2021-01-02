@@ -1,2 +1,4 @@
 battleship/Main.java
  battleship.Main
+ battleship.Plansza
+ battleship.Statek
