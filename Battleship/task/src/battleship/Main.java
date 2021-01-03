@@ -43,6 +43,11 @@ public class Main {
                 if(a&&b&&c&&d&&e) {
                     pchacz = true;
                     plansza.statki[0]=statek5;
+
+                    plansza.statkiMaszty[0][0]=0;
+                    plansza.statkiMaszty[0][1]=5;
+
+                    plansza.iloscMasztow+=5;
                     plansza.rysujStatek(0);
                     plansza.wyswietlPole();
                 }else{
@@ -54,6 +59,7 @@ public class Main {
             }
 
         }
+
         //**************
         pchacz=false;
         System.out.println("Enter the coordinates of the Battleship (4 cells):");
@@ -73,7 +79,12 @@ public class Main {
                 if(a&&b&&c&&d&&e) {
                     pchacz = true;
                     plansza.statki[1]=statek4;
+
+                    plansza.statkiMaszty[1][0]=0;
+                    plansza.statkiMaszty[1][1]=4;
+
                     plansza.rysujStatek(1);
+                    plansza.iloscMasztow+=4;
                     plansza.wyswietlPole();
                 }else{
                     if(!a || !c || !d) System.out.println("Error! Wrong ship location! Try again:");
@@ -83,6 +94,7 @@ public class Main {
             }
 
         }
+
         //**************
         pchacz=false;
         System.out.println("Enter the coordinates of the Submarine (3 cells):");
@@ -102,6 +114,11 @@ public class Main {
                 if(a&&b&&c&&d&&e) {
                     pchacz = true;
                     plansza.statki[2]=statek3;
+
+                    plansza.statkiMaszty[2][0]=0;
+                    plansza.statkiMaszty[2][1]=3;
+
+                    plansza.iloscMasztow+=3;
                     plansza.rysujStatek(2);
                     plansza.wyswietlPole();
                 }else{
@@ -112,6 +129,7 @@ public class Main {
             }
 
         }
+
         //**************
         pchacz=false;
         System.out.println("Enter the coordinates of the Cruiser (3 cells):");
@@ -131,7 +149,12 @@ public class Main {
                 if(a&&b&&c&&d&&e) {
                     pchacz = true;
                     plansza.statki[3]=statek3a;
+
+                    plansza.statkiMaszty[3][0]=0;
+                    plansza.statkiMaszty[3][1]=3;
+
                     plansza.rysujStatek(3);
+                    plansza.iloscMasztow+=3;
                     plansza.wyswietlPole();
                 }else{
                     if(!a || !c || !d) System.out.println("Error! Wrong ship location! Try again:");
@@ -141,6 +164,7 @@ public class Main {
             }
 
         }
+
         //**************
         pchacz=false;
         System.out.println("Enter the coordinates of the Destroyer (2 cells):");
@@ -160,6 +184,11 @@ public class Main {
                 if(a&&b&&c&&d&&e) {
                     pchacz = true;
                     plansza.statki[4]=statek2;
+
+                    plansza.statkiMaszty[4][0]=0;
+                    plansza.statkiMaszty[4][1]=2;
+
+                    plansza.iloscMasztow+=2;
                     plansza.rysujStatek(4);
                     plansza.wyswietlPole();
                 }else{
@@ -171,6 +200,8 @@ public class Main {
             }
 
         }
+        /*
+         */
         //**************
         System.out.println("\nThe game starts!\n");
         pchacz=false;
@@ -188,13 +219,21 @@ public class Main {
                 }else if(rezultat==0){
                     plansza.wyswietlPoleStrzalow();
                     System.out.println("You missed!\n");
-                    plansza.wyswietlPole();
+                    //plansza.wyswietlPole();
                 }
                 else {
                     plansza.wyswietlPoleStrzalow();
                     System.out.println("You hit a ship!\n");
-                    plansza.wyswietlPole();
-                    pchacz=true;
+                    //plansza.wyswietlPole();
+                   // plansza.iloscMasztow--;
+                    if(plansza.wykonczonyStatek && plansza.iloscMasztow!=0){
+                        System.out.println("You sank a ship! Specify a new target:");
+                        plansza.wykonczonyStatek=false;
+                    }
+                    if(plansza.iloscMasztow==0) {
+                        pchacz=true;
+                        System.out.println("You sank the last ship. You won. Congratulations!");
+                    }
                 }
 
 
@@ -229,8 +268,10 @@ class Plansza{
     public String [][] poleStatki1;
     public String [][] poleStrzalow;
 
-    public int iloscStatkow;
+    public int iloscMasztow;
     public Statek[] statki;
+    public int[][] statkiMaszty;
+    public boolean wykonczonyStatek;
 
     //---------------------------------------------
     public Plansza(int size) {
@@ -238,6 +279,8 @@ class Plansza{
         poleWalki = new String[size+1][size+1];
         poleStatki1 = new String[size+1][size+1];
         poleStrzalow = new String[size+1][size+1];
+        iloscMasztow=0;
+        wykonczonyStatek=false;
 
 
         // wszystkie pola  falujemy
@@ -298,6 +341,7 @@ class Plansza{
     void inicjujStatki(int n){
 
         statki=new Statek[n];
+        statkiMaszty=new int[n][2];
     }
 
 
@@ -436,7 +480,8 @@ class Plansza{
         for(int a=statki[n].x1;a<=statki[n].x2;a++){
             for(int b=statki[n].y1;b<=statki[n].y2;b++){
                 poleWalki[b][a]="O";
-                poleStatki1[b][a]="O";
+                //poleStatki1[b][a]="O";
+                poleStatki1[b][a]=Integer.toString(n);
             }
         }
 
@@ -451,14 +496,24 @@ class Plansza{
             if(coJest.equals("O")) {
                 poleWalki[w[1]][w[0]]="X";
                 poleStrzalow[w[1]][w[0]]="X";
+                int statekNr = Integer.parseInt(poleStatki1[w[1]][w[0]]);
+                int statekMaszty=statkiMaszty[statekNr][1];
+                statkiMaszty[statekNr][1]--;
+                iloscMasztow--;
+                if(statkiMaszty[statekNr][1]==0)
+                wykonczonyStatek=true;
 
                 return 1;
             }
-            else {
+            else if(coJest.equals("~")||coJest.equals("M"))
+                {
                 poleWalki[w[1]][w[0]]="M";
                 poleStrzalow[w[1]][w[0]]="M";
 
                 return 0;
+            } else {
+
+                return 1;
             }
 
 

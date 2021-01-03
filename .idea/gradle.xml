@@ -64,9 +64,11 @@
             <option value="$PROJECT_DIR$/Problems/Inverse boolean flags" />
             <option value="$PROJECT_DIR$/Problems/Is between" />
             <option value="$PROJECT_DIR$/Problems/Out of bounds_" />
+            <option value="$PROJECT_DIR$/Problems/Overloading methods" />
             <option value="$PROJECT_DIR$/Problems/Points on the 2D plane" />
             <option value="$PROJECT_DIR$/Problems/Preparing full name" />
             <option value="$PROJECT_DIR$/Problems/Pretty looking pattern" />
+            <option value="$PROJECT_DIR$/Problems/Print" />
             <option value="$PROJECT_DIR$/Problems/Print strings in the reverse order" />
             <option value="$PROJECT_DIR$/Problems/Profit" />
             <option value="$PROJECT_DIR$/Problems/Project constants and methods" />
@@ -75,6 +77,7 @@
             <option value="$PROJECT_DIR$/Problems/Reverse input text" />
             <option value="$PROJECT_DIR$/Problems/Right Rotation" />
             <option value="$PROJECT_DIR$/Problems/Robot control" />
+            <option value="$PROJECT_DIR$/Problems/Shape" />
             <option value="$PROJECT_DIR$/Problems/Simulating a clock" />
             <option value="$PROJECT_DIR$/Problems/Size of parts" />
             <option value="$PROJECT_DIR$/Problems/Sorting arrays" />
