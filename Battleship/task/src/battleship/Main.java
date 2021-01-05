@@ -3,8 +3,6 @@ package battleship;
 import java.util.Locale;
 import java.util.Scanner;
 import java.util.StringTokenizer;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Main {
 
@@ -12,14 +10,14 @@ public class Main {
     public static void main(String[] args) {
         // Write your code here
         int size=11;
-        Plansza plansza = new Plansza(size);
-
-        //------------------------------------------
-        plansza.wyswietlPole();
-        //------------------------------------------
-        plansza.inicjujStatki(5);
-
         Scanner scanner= new Scanner(System.in);
+        //------------------------------------------
+        //**************************************************************************************************
+        System.out.println("Player 1, place your ships on the game field");
+        Plansza plansza = new Plansza(size);
+        plansza.nazwaGracza="Player 1";
+        plansza.wyswietlPole();
+        plansza.inicjujStatki(5);
 
         Statek statek5,statek4,statek3,statek3a,statek2;
         plansza.inicjujStatki(5);
@@ -202,44 +200,306 @@ public class Main {
         }
         /*
          */
-        //**************
-        System.out.println("\nThe game starts!\n");
-        pchacz=false;
-        plansza.wyswietlPoleStrzalow();
-        System.out.println("\nTake a shot!\n");
+        //**************************************************************************************************
+        System.out.println("Press Enter and pass the move to another player");
         System.out.print("> ");
+        String input=scanner.nextLine();
+        System.out.println("Player 2, place your ships to the game field");
+        //**************************************************************************************************
+        Plansza plansza2 = new Plansza(size);
+        plansza2.nazwaGracza="Player 2";
+        plansza2.wyswietlPole();
+        plansza2.inicjujStatki(5);
+
+        Statek statek55,statek44,statek33,statek33a,statek22;
+        plansza2.inicjujStatki(5);
+
+        //**************
+        System.out.println("Enter the coordinates of the Aircraft Carrier (5 cells):");
+        pchacz=false;
         while (!pchacz){
 
-            String input=scanner.nextLine();
-            int[] w =plansza.zamienStrzalNaWspolrzedne(input);
+            System.out.print("> ");
+            input=scanner.nextLine();
+
+            int[] w =plansza2.zamienStringNaWspolrzedne(input);
             if(w!=null) {
-                int rezultat=plansza.strzal(w);
-                if(rezultat==-1){
-                    System.out.println("Error! You entered the wrong coordinates! Try again:\n");
-                }else if(rezultat==0){
-                    plansza.wyswietlPoleStrzalow();
-                    System.out.println("You missed!\n");
-                    //plansza.wyswietlPole();
+                statek55 = new Statek(w[0], w[1], w[2], w[3], 5, "Aircraft");
+                boolean a= statek55.sprawdzPoziomoPionowo(w[0], w[1], w[2], w[3]) ;
+                boolean b= statek55.testNaDlugosc(w[0], w[1], w[2], w[3],5);
+                boolean c= statek55.testNaWystawaniePozaPlansze(w[0], w[1], w[2], w[3],size-1);
+                boolean d= statek55.testNaZero(w[0], w[1], w[2], w[3]);
+                boolean e= plansza2.sprawdNiezKolizje(statek55);
+                if(a&&b&&c&&d&&e) {
+                    pchacz = true;
+                    plansza2.statki[0]=statek55;
+
+                    plansza2.statkiMaszty[0][0]=0;
+                    plansza2.statkiMaszty[0][1]=5;
+
+                    plansza2.iloscMasztow+=5;
+                    plansza2.rysujStatek(0);
+                    plansza2.wyswietlPole();
+                }else{
+                    if(!a || !c || !d) System.out.println("Error! Wrong ship location! Try again:");
+                    if(!b) System.out.println("Error! Wrong length of the "+statek55.getNazwa()+"! Try again:");
+                    if(!e) System.out.println("Error! You placed it too close to another one. Try again:");
+
                 }
-                else {
-                    plansza.wyswietlPoleStrzalow();
-                    System.out.println("You hit a ship!\n");
-                    //plansza.wyswietlPole();
-                   // plansza.iloscMasztow--;
-                    if(plansza.wykonczonyStatek && plansza.iloscMasztow!=0){
-                        System.out.println("You sank a ship! Specify a new target:");
-                        plansza.wykonczonyStatek=false;
-                    }
-                    if(plansza.iloscMasztow==0) {
-                        pchacz=true;
-                        System.out.println("You sank the last ship. You won. Congratulations!");
-                    }
+            }
+
+        }
+
+        //**************
+        pchacz=false;
+        System.out.println("Enter the coordinates of the Battleship (4 cells):");
+        while (!pchacz){
+
+            System.out.print("> ");
+            input=scanner.nextLine();
+
+            int[] w =plansza2.zamienStringNaWspolrzedne(input);
+            if(w!=null) {
+                statek44 = new Statek(w[0], w[1], w[2], w[3], 4, "Battleship");
+                boolean a= statek44.sprawdzPoziomoPionowo(w[0], w[1], w[2], w[3]) ;
+                boolean b= statek44.testNaDlugosc(w[0], w[1], w[2], w[3],4);
+                boolean c= statek44.testNaWystawaniePozaPlansze(w[0], w[1], w[2], w[3],size-1);
+                boolean d= statek44.testNaZero(w[0], w[1], w[2], w[3]);
+                boolean e= plansza2.sprawdNiezKolizje(statek44);
+                if(a&&b&&c&&d&&e) {
+                    pchacz = true;
+                    plansza2.statki[1]=statek44;
+
+                    plansza2.statkiMaszty[1][0]=0;
+                    plansza2.statkiMaszty[1][1]=4;
+
+                    plansza2.rysujStatek(1);
+                    plansza2.iloscMasztow+=4;
+                    plansza2.wyswietlPole();
+                }else{
+                    if(!a || !c || !d) System.out.println("Error! Wrong ship location! Try again:");
+                    if(!b) System.out.println("Error! Wrong length of the "+statek44.getNazwa()+"! Try again:");
+                    if(!e) System.out.println("Error! You placed it too close to another one. Try again:");
                 }
+            }
+
+        }
+
+        //**************
+        pchacz=false;
+        System.out.println("Enter the coordinates of the Submarine (3 cells):");
+        while (!pchacz){
+
+            System.out.print("> ");
+            input=scanner.nextLine();
+
+            int[] w =plansza2.zamienStringNaWspolrzedne(input);
+            if(w!=null) {
+                statek33 = new Statek(w[0], w[1], w[2], w[3], 3, "Submarine");
+                boolean a= statek33.sprawdzPoziomoPionowo(w[0], w[1], w[2], w[3]) ;
+                boolean b= statek33.testNaDlugosc(w[0], w[1], w[2], w[3],3);
+                boolean c= statek33.testNaWystawaniePozaPlansze(w[0], w[1], w[2], w[3],size-1);
+                boolean d= statek33.testNaZero(w[0], w[1], w[2], w[3]);
+                boolean e= plansza2.sprawdNiezKolizje(statek33);
+                if(a&&b&&c&&d&&e) {
+                    pchacz = true;
+                    plansza2.statki[2]=statek33;
+
+                    plansza2.statkiMaszty[2][0]=0;
+                    plansza2.statkiMaszty[2][1]=3;
+
+                    plansza2.iloscMasztow+=3;
+                    plansza2.rysujStatek(2);
+                    plansza2.wyswietlPole();
+                }else{
+                    if(!a || !c || !d) System.out.println("Error! Wrong ship location! Try again:");
+                    if(!b) System.out.println("Error! Wrong length of the "+statek33.getNazwa()+"! Try again:");
+                    if(!e) System.out.println("Error! You placed it too close to another one. Try again:");
+                }
+            }
+
+        }
+
+        //**************
+        pchacz=false;
+        System.out.println("Enter the coordinates of the Cruiser (3 cells):");
+        while (!pchacz){
+
+            System.out.print("> ");
+            input=scanner.nextLine();
+
+            int[] w =plansza2.zamienStringNaWspolrzedne(input);
+            if(w!=null) {
+                statek33a = new Statek(w[0], w[1], w[2], w[3], 3, "Cruiser");
+                boolean a= statek33a.sprawdzPoziomoPionowo(w[0], w[1], w[2], w[3]) ;
+                boolean b= statek33a.testNaDlugosc(w[0], w[1], w[2], w[3],3);
+                boolean c= statek33a.testNaWystawaniePozaPlansze(w[0], w[1], w[2], w[3],size-1);
+                boolean d= statek33a.testNaZero(w[0], w[1], w[2], w[3]);
+                boolean e= plansza2.sprawdNiezKolizje(statek33a);
+                if(a&&b&&c&&d&&e) {
+                    pchacz = true;
+                    plansza2.statki[3]=statek33a;
+
+                    plansza2.statkiMaszty[3][0]=0;
+                    plansza2.statkiMaszty[3][1]=3;
+
+                    plansza2.rysujStatek(3);
+                    plansza2.iloscMasztow+=3;
+                    plansza2.wyswietlPole();
+                }else{
+                    if(!a || !c || !d) System.out.println("Error! Wrong ship location! Try again:");
+                    if(!b) System.out.println("Error! Wrong length of the "+statek33a.getNazwa()+"! Try again:");
+                    if(!e) System.out.println("Error! You placed it too close to another one. Try again:");
+                }
+            }
+
+        }
+
+        //**************
+        pchacz=false;
+        System.out.println("Enter the coordinates of the Destroyer (2 cells):");
+        while (!pchacz){
+
+            System.out.print("> ");
+            input=scanner.nextLine();
+
+            int[] w =plansza2.zamienStringNaWspolrzedne(input);
+            if(w!=null) {
+                statek22 = new Statek(w[0], w[1], w[2], w[3], 2, "Destroyer");
+                boolean a= statek22.sprawdzPoziomoPionowo(w[0], w[1], w[2], w[3]) ;
+                boolean b= statek22.testNaDlugosc(w[0], w[1], w[2], w[3],2);
+                boolean c= statek22.testNaWystawaniePozaPlansze(w[0], w[1], w[2], w[3],size-1);
+                boolean d= statek22.testNaZero(w[0], w[1], w[2], w[3]);
+                boolean e= plansza2.sprawdNiezKolizje(statek22);
+                if(a&&b&&c&&d&&e) {
+                    pchacz = true;
+                    plansza2.statki[4]=statek22;
+
+                    plansza2.statkiMaszty[4][0]=0;
+                    plansza2.statkiMaszty[4][1]=2;
+
+                    plansza2.iloscMasztow+=2;
+                    plansza2.rysujStatek(4);
+                    plansza2.wyswietlPole();
+                }else{
+                    if(!a || !c || !d) System.out.println("Error! Wrong ship location! Try again:");
+                    if(!b) System.out.println("Error! Wrong length of the "+statek22.getNazwa()+"! Try again:");
+                    if(!e) System.out.println("Error! You placed it too close to another one. Try again:");
+
+                }
+            }
+
+        }
+
+        //**************************************************************************************************
+        System.out.println("Press Enter and pass the move to another player");
+        System.out.print("> ");
+        input=scanner.nextLine();
+
+
+        //**************************************************************************************************
+
+        //System.out.println("\nThe game starts!\n");
+
+
+
+
+        pchacz=false;
+        String biezacyGracz=plansza.nazwaGracza;
+
+        while (!pchacz){
+
+
+            //----------------------------------------
+            if(biezacyGracz==plansza.nazwaGracza) {
+
+                plansza2.wyswietlPoleStrzalow();
+                System.out.println("---------------------");
+                plansza.wyswietlPole();
+                // System.out.println("\nTake a shot!\n");
+                System.out.println(biezacyGracz+", it's your turn:");
+                System.out.print("> ");
+                biezacyGracz=plansza2.nazwaGracza;
+
+
+                input = scanner.nextLine();
+                int[] w = plansza2.zamienStrzalNaWspolrzedne(input);
+                if (w != null) {
+                    int rezultat = plansza2.strzal(w);
+                    if (rezultat == -1) {
+                        System.out.println("Error! You entered the wrong coordinates! Try again:\n");
+                    } else if (rezultat == 0) {
+                        //plansza.wyswietlPoleStrzalow();
+                        System.out.println("You missed!\n");
+                        //plansza.wyswietlPole();
+                    } else {
+                        // plansza.wyswietlPoleStrzalow();
+                        System.out.println("You hit a ship!\n");
+                        //plansza.wyswietlPole();
+                        // plansza.iloscMasztow--;
+                        if (plansza2.wykonczonyStatek && plansza2.iloscMasztow != 0) {
+                            System.out.println("You sank a ship! Specify a new target:");
+                            plansza2.wykonczonyStatek = false;
+                        }
+                        if (plansza2.iloscMasztow == 0) {
+                            pchacz = true;
+                            System.out.println("You sank the last ship. You won. Congratulations!");
+                        }
+                    }
+
+
+                }
+            }
+            //----------------------------------------
+            else {
+
+                plansza.wyswietlPoleStrzalow();
+                System.out.println("---------------------");
+                plansza2.wyswietlPole();
+                // System.out.println("\nTake a shot!\n");
+                System.out.println(biezacyGracz+", it's your turn:");
+                biezacyGracz=plansza.nazwaGracza;
+                System.out.print("> ");
+
+
+                input = scanner.nextLine();
+                int[] w = plansza.zamienStrzalNaWspolrzedne(input);
+                if (w != null) {
+                    int rezultat = plansza.strzal(w);
+                    if (rezultat == -1) {
+                        System.out.println("Error! You entered the wrong coordinates! Try again:\n");
+                    } else if (rezultat == 0) {
+                        //plansza.wyswietlPoleStrzalow();
+                        System.out.println("You missed!\n");
+                        //plansza.wyswietlPole();
+                    } else {
+                        // plansza.wyswietlPoleStrzalow();
+                        System.out.println("You hit a ship!\n");
+                        //plansza.wyswietlPole();
+                        // plansza.iloscMasztow--;
+                        if (plansza.wykonczonyStatek && plansza.iloscMasztow != 0) {
+                            System.out.println("You sank a ship! Specify a new target:");
+                            plansza.wykonczonyStatek = false;
+                        }
+                        if (plansza.iloscMasztow == 0) {
+                            pchacz = true;
+                            System.out.println("You sank the last ship. You won. Congratulations!");
+                        }
+                    }
+
+
+                }
+
+
 
 
             }
-
-
+            //----------------------------------------
+            if(!pchacz){
+                System.out.println("Press Enter and pass the move to another player");
+                System.out.print("> ");
+                input=scanner.nextLine();
+            }
 
         }
         //**************
@@ -259,9 +519,12 @@ public class Main {
 
 
 }
+
 //#######################################################################################33
 //#######################################################################################33
 class Plansza{
+
+    public String nazwaGracza;
 
     public int size;
     public String [][] poleWalki;
@@ -492,7 +755,7 @@ class Plansza{
         if(w[0]>size-1||w[0]<1 ||w[1]>size-1||w[1]<1 ){
             return -1;
         }else {
-        String coJest=poleWalki[w[1]][w[0]];
+            String coJest=poleWalki[w[1]][w[0]];
             if(coJest.equals("O")) {
                 poleWalki[w[1]][w[0]]="X";
                 poleStrzalow[w[1]][w[0]]="X";
@@ -501,12 +764,12 @@ class Plansza{
                 statkiMaszty[statekNr][1]--;
                 iloscMasztow--;
                 if(statkiMaszty[statekNr][1]==0)
-                wykonczonyStatek=true;
+                    wykonczonyStatek=true;
 
                 return 1;
             }
             else if(coJest.equals("~")||coJest.equals("M"))
-                {
+            {
                 poleWalki[w[1]][w[0]]="M";
                 poleStrzalow[w[1]][w[0]]="M";
 
@@ -525,6 +788,7 @@ class Plansza{
     //---------------------------------------------
 
 }
+
 //#######################################################################################33
 //#######################################################################################33
 class Statek{
